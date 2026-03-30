@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Wallpapers - AnimeWalls</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/live-style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='IMG/anime-logo.png') }}" alt="Lumora AI Logo"
+                    style="height: 40px; width: auto;">
+                <span>Anime<span>Walls</span></span>
+            </div>
+
+
+            <!-- Mobile Menu Toggle Button -->
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="drop-btn">Categories <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-content">
+                        <li><a href="/main?cat=Aesthetic">Aesthetic</a></li>
+                        <li><a href="/main?cat=Action & Battle">Action & Battle</a></li>
+                        <li><a href="/main?cat=Romantic / Couple">Romantic / Couple</a></li>
+                        <li><a href="/main?cat=Dark / Sad Anime">Dark / Sad Anime</a></li>
+                        <li><a href="/main?cat=Fantasy & Magic Worlds">Fantasy & Magic Worlds</a></li>
+                        <li><a href="/main?cat=Cyberpunk / Futuristic">Cyberpunk / Futuristic</a></li>
+                        <li><a href="/main?cat=Abstract / 3D">Abstract / 3D</a></li>
+                        <li><a href="/main?cat=Chibi / Cute Anime">Chibi / Cute Anime</a></li>
+                        <li><a href="/main?cat=Nature + Anime Blend">Nature + Anime Blend</a></li>
+                        <li><a href="/main?cat=Character-Focused Wallpapers">Character-Focused Wallpapers</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{ url_for('live_page') }}" class="active">Live Wallpaper</a></li>
+                <li><a href="{{ url_for('app_coming_soon') }}">Mobile</a></li>
+            </ul>
+            <div class="search-box">
+                <form action="/main" method="GET" style="display: flex; width: 100%;">
+                    <input type="text" name="q" placeholder="Search 4K wallpapers...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        const menu = document.querySelector('#mobile-menu');
+        const menuLinks = document.querySelector('#nav-list');
+
+        menu.addEventListener('click', function () {
+            menu.classList.toggle('is-active');
+            menuLinks.classList.toggle('active');
+        });
+
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navLinks = document.querySelector(".nav-links");
+
+        // Toggle menu open/close
+        menuToggle.addEventListener("click", () => {
+            menuToggle.classList.toggle("is-active");
+            navLinks.classList.toggle("active");
+        });
+
+        const dropdowns = document.querySelectorAll(".dropdown");
+
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener("click", () => {
+                dropdown.classList.toggle("active");
+            });
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                menuToggle.classList.remove("is-active");
+                navLinks.classList.remove("active");
+            }
+        });
+
+    </script>
+
+
+
+
+    <section class="live-hero">
+        <video autoplay muted loop playsinline id="hero-video">
+            <source src="{{ url_for('static', filename='videos/live-wallpaper-bg.mp4') }}" type="video/mp4">
+        </video>
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Experience <span>Live</span> Motion</h1>
+                <p class="hero-subtitle">
+                    High-definition 4K anime live loops optimized for every screen.
+                    Bring your desktop and mobile to life.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#wallpaper-grid" class="btn-primary">Explore</a>
+                    <a href="/main" class="btn-glass">Static</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="category-wrapper">
+        <div class="category-switcher">
+            <button class="cat-btn" onclick="filterLive('Desktop')">Desktop</button>
+            <button class="cat-btn" onclick="filterLive('Mobile')">Mobile</button>
+        </div>
+
+        <div class="search-container">
+            <div class="search-trigger" onclick="toggleSearchBar()">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <div id="search-dropdown" class="search-dropdown">
+                <form action="/live-search" method="GET" class="search-form">
+                    <input type="text" name="q" placeholder="Search wallpapers..." autocomplete="off">
+                    <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="wallpaper-grid" id="wallpaper-grid">
+        {% for wallpaper in wallpapers %}
+        <div class="wallpaper-card" data-category="{{ wallpaper.category }}"
+            onclick="window.location.href='/live-download/{{ wallpaper.id }}'" style="cursor: pointer;">
+            <div class="video-preview-container">
+                <video class="preview-video" muted loop playsinline prefetch="auto">
+                    {% if wallpaper.category == 'Mobile' %}
+                    <source
+                        src="{{ url_for('static', filename='uploads/live_wallpaper/mobile/' + wallpaper.file_name) }}"
+                        type="video/mp4">
+                    {% else %}
+                    <source
+                        src="{{ url_for('static', filename='uploads/live_wallpaper/desktop/' + wallpaper.file_name) }}"
+                        type="video/mp4">
+                    {% endif %}
+                </video>
+            </div>
+            <div class="card-info">
+                <h3>{{ wallpaper.title }}</h3>
+                <div class="card-stats">
+                    <span><i class="fas fa-eye"></i> {{ wallpaper.views }}</span>
+                    <span><i class="fas fa-download"></i> {{ wallpaper.downloads }}</span>
+                </div>
+                <p style="font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-top: 5px;">
+                    Added: {{ wallpaper.upload_date }}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+
+        function toggleSearchBar() {
+            const overlay = document.getElementById('search-overlay');
+            overlay.style.display = (overlay.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function filterLive(category) {
+            const isMobileView = window.innerWidth <= 768;
+            const limit = (category === 'Desktop') ? 16 : 8; // Desktop: 16, Mobile: 8
+
+            let count = 0;
+            const cards = document.querySelectorAll('.wallpaper-card');
+
+            // Buttons update
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText.trim() === category);
+            });
+
+            cards.forEach(card => {
+                if (card.getAttribute('data-category') === category && count < limit) {
+                    card.style.display = 'block';
+                    count++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Initial Load
+        document.addEventListener('DOMContentLoaded', () => {
+            const isMobile = window.innerWidth <= 768;
+            filterLive(isMobile ? 'Mobile' : 'Desktop');
+        });
+
+
+        function filterLive(category) {
+            // 1. Active Button Style Update
+            const buttons = document.querySelectorAll('.cat-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                // Button-er text match korle active class hobe
+                if (btn.innerText.trim() === category) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // 2. Card Filtering logic
+            const cards = document.querySelectorAll('.wallpaper-card');
+            cards.forEach(card => {
+                if (card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.wallpaper-card');
+            const isMobile = window.innerWidth <= 768;
+
+            // Auto Select Category based on Device
+            const defaultCat = isMobile ? 'Mobile' : 'Desktop';
+            filterLive(defaultCat);
+
+            // Hover & Touch Play Logic
+            cards.forEach(card => {
+                const video = card.querySelector('.preview-video');
+
+                // Desktop Hover
+                card.addEventListener('mouseenter', () => {
+                    video.play().catch(err => console.log("Play blocked"));
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+
+                // Mobile Touch
+                card.addEventListener('touchstart', () => {
+                    video.play();
+                });
+            });
+        });
+
+        function toggleSearchBar() {
+            const dropdown = document.getElementById('search-dropdown');
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'block';
+                // Auto focus input
+                dropdown.querySelector('input').focus();
+            }
+        }
+
+        // Search bar er baire click korle auto close hobe
+        document.addEventListener('click', function (event) {
+            const container = document.querySelector('.search-container');
+            const dropdown = document.getElementById('search-dropdown');
+            if (!container.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    </script>
+
+
+
+</body>
+
+</html>

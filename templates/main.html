@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeWalls - Explore 4K Gallery</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main-style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="main-page-body">
+
+    <header class="main-nav">
+        <div class="header-container">
+
+            <!-- Logo -->
+            <a href="/" class="brand">
+                <img src="{{ url_for('static', filename='IMG/anime-logo.png') }}" alt="Logo">
+                <span class="brand-text">Anime<span>Walls</span></span>
+            </a>
+
+            <!-- Actions -->
+            <div class="nav-actions">
+
+                <!-- Filter Icon -->
+                <div class="filter-icon" onclick="toggleFilterPanel()">
+                    <i class="fas fa-sliders-h"></i>
+                </div>
+
+                <!-- Search Icon (Mobile) -->
+                <div class="search-icon" onclick="toggleSearchBox()">
+                    <i class="fas fa-search"></i>
+                </div>
+
+                <!-- Search Box -->
+                <form action="/main" method="GET" class="search-wrapper" id="searchBox">
+                    <input type="text" name="q" placeholder="Search 4K anime aesthetic..." value="{{ query if query }}">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- FILTER PANEL -->
+    <div class="filter-panel" id="filterPanel">
+
+        <div class="filter-section">
+            <p class="filter-title">Browse</p>
+            <a href="/main?q={{ query }}">All</a>
+        </div>
+
+        <div class="filter-section">
+            <p class="filter-title">Categories</p>
+            <a href="/main?q={{ query }}&cat=Aesthetic">Aesthetic</a>
+            <a href="/main?q={{ query }}&cat=Action & Battle">Action & Battle</a>
+            <a href="/main?q={{ query }}&cat=Romantic / Couple">Romantic / Couple</a>
+            <a href="/main?q={{ query }}&cat=Dark / Sad Anime">Dark / Sad Anime</a>
+            <a href="/main?q={{ query }}&cat=Fantasy & Magic Worlds">Fantasy & Magic Worlds</a>
+            <a href="/main?q={{ query }}&cat=Cyberpunk / Futuristic">Cyberpunk / Futuristic</a>
+            <a href="/main?q={{ query }}&cat=Abstract / 3D">Abstract / 3D</a>
+            <a href="/main?q={{ query }}&cat=Chibi / Cute Anime">Chibi / Cute Anime</a>
+            <a href="/main?q={{ query }}&cat=Nature + Anime Blend">Nature + Anime Blend</a>
+            <a href="/main?q={{ query }}&cat=Character-Focused Wallpapers">Character-Focused Wallpapers</a>
+        </div>
+
+        <div class="filter-section">
+            <p class="filter-title">Type</p>
+            <a href="/main?q={{ query }}&type=mobile">Mobile</a>
+            <a href="/main?q={{ query }}&type=desktop">Desktop</a>
+        </div>
+
+    </div>
+
+
+    <script>
+        function toggleFilterPanel() {
+            document.getElementById("filterPanel").classList.toggle("active");
+        }
+
+        function toggleSearchBox() {
+            document.getElementById("searchBox").classList.toggle("active");
+        }
+
+        /* Close when clicking outside */
+        window.addEventListener("click", function (e) {
+
+            const panel = document.getElementById("filterPanel");
+            const filterBtn = document.querySelector(".filter-icon");
+
+            const search = document.getElementById("searchBox");
+            const searchBtn = document.querySelector(".search-icon");
+
+            if (!panel.contains(e.target) && !filterBtn.contains(e.target)) {
+                panel.classList.remove("active");
+            }
+
+            if (!search.contains(e.target) && !searchBtn.contains(e.target)) {
+                search.classList.remove("active");
+            }
+
+        });
+    </script>
+
+
+    <!-- Sidebar Navbar -->
+    <div class="sidebar" id="sidebar">
+
+        <!-- Top Logo -->
+        <div class="logo">
+            <img src="{{ url_for('static', filename='IMG/anime-logo.png') }}">
+            <span class="logo-text">Anime<span>Walls</span></span>
+        </div>
+
+        <!-- Menu -->
+        <ul class="menu">
+            <li><a href="{{ url_for('home') }}"><i class="fas fa-home"></i><span>Home</span></a></li>
+            <li><a href="{{ url_for('home') }}#catagories"><i class="fas fa-th-large"></i><span>Categories</span></a></li>
+            <li><a href="{{ url_for('live_page') }}"><i class="fas fa-play-circle"></i><span>Live Wallpaper</span></a></li>
+            <li><a href="#"><i class="fas fa-mobile-alt"></i><span>Mobile</span></a></li>
+        </ul>
+
+        <!-- Expand Button -->
+        <div class="expand-btn" onclick="toggleSidebar()">
+            <i class="fas fa-angle-right"></i>
+        </div>
+
+    </div>
+
+    <!-- Mobile Floating Button -->
+    <div class="mobile-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-angle-right"></i>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
+
+
+
+
+    <section class="gallery-section">
+        <h2 class="display-title">
+            {% if query %} Results for "{{ query }}" {% else %} Featured Wallpapers {% endif %}
+        </h2>
+
+        <div class="wallpaper-grid">
+            {% for wp in wallpapers %}
+            <a href="/download/{{ wp.id }}" class="card-link">
+                <div class="wallpaper-card"
+                    style="--bg:url('{{ url_for('static', filename='uploads/thumbnails/desktop/' + wp.filename_desktop) }}');">
+                    <div class="device-showcase">
+
+                        {% if wp_type == 'desktop' %}
+                        <div class="laptop-box single-frame">
+                            <img src="{{ url_for('static', filename='IMG/laptop-frame.png') }}" class="frame">
+                            <div class="screen">
+                                <img
+                                    src="{{ url_for('static', filename='uploads/thumbnails/desktop/' + wp.filename_desktop) }}">
+                            </div>
+                        </div>
+
+                        {% elif wp_type == 'mobile' %}
+                        <div class="mobile-box single-frame-mobile">
+                            <img src="{{ url_for('static', filename='IMG/mobile-frame.png') }}" class="frame">
+                            <div class="screen">
+                                <img
+                                    src="{{ url_for('static', filename='uploads/thumbnails/mobile/' + wp.filename_mobile) }}">
+                            </div>
+                        </div>
+
+                        {% else %}
+                        <div class="laptop-box">
+                            <img src="{{ url_for('static', filename='IMG/laptop-frame.png') }}" class="frame">
+                            <div class="screen">
+                                <img
+                                    src="{{ url_for('static', filename='uploads/thumbnails/desktop/' + wp.filename_desktop) }}">
+                            </div>
+                        </div>
+                        <div class="mobile-box">
+                            <img src="{{ url_for('static', filename='IMG/mobile-frame.png') }}" class="frame">
+                            <div class="screen">
+                                <img
+                                    src="{{ url_for('static', filename='uploads/thumbnails/mobile/' + wp.filename_mobile) }}">
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                    <div class="card-meta">
+                        <h3 class="wp-name">{{ wp.title }}</h3>
+                        <span class="wp-tag">{{ wp.category }}</span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

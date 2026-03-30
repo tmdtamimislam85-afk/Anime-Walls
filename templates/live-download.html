@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ wp.title }} - Live Wallpaper Download</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/live-style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styling */
+        body {
+            background-color: #050505;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .download-container {
+            display: flex;
+            max-width: 1300px;
+            margin: 60px auto;
+            padding: 20px;
+            gap: 50px;
+            min-height: 80vh;
+        }
+
+        /* Left Side: Video Section */
+        .video-display-section {
+            flex: 1.5;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .live-canvas-wrapper {
+            width: 100%;
+            background: #000;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Aspect Ratio Logic based on Category */
+        .canvas-mobile {
+            max-width: 400px;
+            aspect-ratio: 9 / 16;
+        }
+
+        .canvas-desktop {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+
+        .live-canvas-wrapper video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Right Side: Details Section */
+        .details-section {
+            flex: 1;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            height: fit-content;
+        }
+
+        .wp-title {
+            font-size: 2.2rem;
+            margin-top: 0;
+            margin-bottom: 25px;
+            background: linear-gradient(to right, #fff, #ff5e00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 1.05rem;
+        }
+
+        .info-label {
+            color: #888;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .info-value i {
+            color: #ff5e00;
+            margin-right: 5px;
+        }
+
+        .tags-box {
+            margin: 25px 0;
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(255, 94, 0, 0.12);
+            color: #ff5e00;
+            padding: 6px 15px;
+            border-radius: 8px;
+            margin: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 94, 0, 0.2);
+        }
+
+        /* Download Button */
+        .download-action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            background: #ff5e00;
+            color: #fff;
+            text-decoration: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(255, 94, 0, 0.3);
+        }
+
+        .download-action-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 94, 0, 0.5);
+            background: #ff7a29;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 992px) {
+            .download-container {
+                flex-direction: column;
+                margin: 20px auto;
+            }
+
+            .video-display-section {
+                order: 1;
+            }
+
+            .details-section {
+                order: 2;
+            }
+
+            .canvas-mobile {
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Glassmorphism Navbar -->
+    <nav class="search-nav">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="{{ url_for('static', filename='IMG/anime-logo.png') }}" alt="Logo">
+                <span>Anime<span>Walls</span></span>
+            </a>
+
+            <!-- Center/Right: Desktop Search -->
+            <div class="nav-search-bar desktop-only">
+                <form action="/live-search" method="GET">
+                    <input type="text" name="q" value="{{ query }}" placeholder="Search wallpapers...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+            <!-- Mobile Right: Search Icon Trigger -->
+            <div class="mobile-search-wrapper">
+                <div class="mobile-search-trigger" onclick="toggleMobileSearch()">
+                    <i class="fas fa-search"></i>
+                </div>
+
+                <!-- Mobile Dropdown Search Box -->
+                <div id="mobile-search-dropdown" class="mobile-search-dropdown">
+                    <form action="/live-search" method="GET">
+                        <input type="text" name="q" placeholder="Search...">
+                        <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        function toggleMobileSearch() {
+            const dropdown = document.getElementById('mobile-search-dropdown');
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'block';
+                dropdown.querySelector('input').focus();
+            }
+        }
+
+        // Search bar er baire click korle auto-close logic
+        document.addEventListener('click', function (e) {
+            const wrapper = document.querySelector('.mobile-search-wrapper');
+            const dropdown = document.getElementById('mobile-search-dropdown');
+            if (wrapper && !wrapper.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    </script>
+
+    <!-- Sidebar Navbar -->
+    <div class="sidebar" id="sidebar">
+
+        <!-- Top Logo -->
+        <div class="logo">
+            <img src="{{ url_for('static', filename='IMG/anime-logo.png') }}">
+            <span class="logo-text">Anime<span>Walls</span></span>
+        </div>
+
+        <!-- Menu -->
+        <ul class="menu">
+            <li><a href="{{ url_for('home') }}"><i class="fas fa-home"></i><span>Home</span></a></li>
+            <li><a href="{{ url_for('home') }}#catagories"><i class="fas fa-th-large"></i><span>Categories</span></a>
+            </li>
+            <li><a href="{{ url_for('live_page') }}"><i class="fas fa-play-circle"></i><span>Live Wallpaper</span></a>
+            </li>
+            <li><a href="#"><i class="fas fa-mobile-alt"></i><span>Mobile</span></a></li>
+        </ul>
+
+        <!-- Expand Button -->
+        <div class="expand-btn" onclick="toggleSidebar()">
+            <i class="fas fa-angle-right"></i>
+        </div>
+
+    </div>
+
+    <!-- Mobile Floating Button -->
+    <div class="mobile-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-angle-right"></i>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
+
+
+
+    <div class="download-container">
+        <div class="video-display-section">
+            <div
+                class="live-canvas-wrapper {% if wp.category == 'Mobile' %}canvas-mobile{% else %}canvas-desktop{% endif %}">
+                <video autoplay muted loop playsinline>
+                    {% if wp.category == 'Mobile' %}
+                    <source src="{{ url_for('static', filename='uploads/live_wallpaper/mobile/' + wp.file_name) }}"
+                        type="video/mp4">
+                    {% else %}
+                    <source src="{{ url_for('static', filename='uploads/live_wallpaper/desktop/' + wp.file_name) }}"
+                        type="video/mp4">
+                    {% endif %}
+                </video>
+            </div>
+        </div>
+
+        <div class="details-section">
+            <h1 class="wp-title">{{ wp.title }}</h1>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Category</span>
+                    <span class="info-value">{{ wp.category }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Views</span>
+                    <span class="info-value"><i class="fas fa-eye"></i> {{ wp.views }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Downloads</span>
+                    <span class="info-value" id="download-count"><i class="fas fa-download"></i> {{ wp.downloads
+                        }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Added On</span>
+                    <span class="info-value">{{ wp.upload_date }}</span>
+                </div>
+            </div>
+
+            <div class="tags-box">
+                <div class="info-label" style="margin-bottom: 10px;">Tags</div>
+                {% for tag in wp.tags.split(',') %}
+                <span class="tag">#{{ tag.strip() }}</span>
+                {% endfor %}
+            </div>
+
+            <a href="{{ url_for('static', filename='uploads/live_wallpaper/' + wp.category.lower() + '/' + wp.file_name) }}"
+                download="{{ wp.title }}.mp4" class="download-action-btn" onclick="incrementDownload()">
+                <i class="fas fa-file-download"></i> Download Video
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Optional: Download count update logic (Backend a alada route lagbe)
+        function incrementDownload() {
+            console.log("Download started for: {{ wp.title }}");
+            // Ekhane apni chaile fetch() diye downloads count baranor request pathate paren
+        }
+    </script>
+
+    <div class="related-section">
+        <h2 class="section-title">More Like This</h2>
+
+        <div class="wallpaper-grid" id="related-grid">
+            {% for wallpaper in related %}
+            <div class="wallpaper-card" data-category="{{ wallpaper.category }}"
+                onclick="window.location.href='/live-download/{{ wallpaper.id }}'" style="cursor: pointer;">
+
+                <div class="video-preview-container">
+                    <video class="preview-video" muted loop playsinline prefetch="auto">
+                        {% if wallpaper.category == 'Mobile' %}
+                        <source
+                            src="{{ url_for('static', filename='uploads/live_wallpaper/mobile/' + wallpaper.file_name) }}"
+                            type="video/mp4">
+                        {% else %}
+                        <source
+                            src="{{ url_for('static', filename='uploads/live_wallpaper/desktop/' + wallpaper.file_name) }}"
+                            type="video/mp4">
+                        {% endif %}
+                    </video>
+                </div>
+
+                <div class="card-info">
+                    <h3>{{ wallpaper.title }}</h3>
+                    <div class="card-stats">
+                        <span><i class="fas fa-eye"></i> {{ wallpaper.views }}</span>
+                        <span><i class="fas fa-download"></i> {{ wallpaper.downloads }}</span>
+                    </div>
+                    <p style="font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-top: 5px;">
+                        Added: {{ wallpaper.upload_date }}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Shob card-er upor loop chaliye hover logic add kora
+            const cards = document.querySelectorAll('.wallpaper-card');
+
+            cards.forEach(card => {
+                const video = card.querySelector('.preview-video');
+
+                // Desktop Hover Play
+                card.addEventListener('mouseenter', () => {
+                    video.play().catch(err => console.log("Play blocked"));
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+
+                // Mobile Touch Play
+                card.addEventListener('touchstart', () => {
+                    video.play();
+                });
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Live Wallpapers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/live-style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="live-search-page">
+
+    <!-- Glassmorphism Navbar -->
+    <nav class="search-nav">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="{{ url_for('static', filename='IMG/anime-logo.png') }}" alt="Logo">
+                <span>Anime<span>Walls</span></span>
+            </a>
+
+            <!-- Center/Right: Desktop Search -->
+            <div class="nav-search-bar desktop-only">
+                <form action="/live-search" method="GET">
+                    <input type="text" name="q" value="{{ query }}" placeholder="Search wallpapers...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+            <!-- Mobile Right: Search Icon Trigger -->
+            <div class="mobile-search-wrapper">
+                <div class="mobile-search-trigger" onclick="toggleMobileSearch()">
+                    <i class="fas fa-search"></i>
+                </div>
+
+                <!-- Mobile Dropdown Search Box -->
+                <div id="mobile-search-dropdown" class="mobile-search-dropdown">
+                    <form action="/live-search" method="GET">
+                        <input type="text" name="q" placeholder="Search...">
+                        <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        function toggleMobileSearch() {
+            const dropdown = document.getElementById('mobile-search-dropdown');
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'block';
+                dropdown.querySelector('input').focus();
+            }
+        }
+
+        // Search bar er baire click korle auto-close logic
+        document.addEventListener('click', function (e) {
+            const wrapper = document.querySelector('.mobile-search-wrapper');
+            const dropdown = document.getElementById('mobile-search-dropdown');
+            if (wrapper && !wrapper.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    </script>
+
+    <!-- Sidebar Navbar -->
+    <div class="sidebar" id="sidebar">
+
+        <!-- Top Logo -->
+        <div class="logo">
+            <img src="{{ url_for('static', filename='IMG/anime-logo.png') }}">
+            <span class="logo-text">Anime<span>Walls</span></span>
+        </div>
+
+        <!-- Menu -->
+        <ul class="menu">
+            <li><a href="{{ url_for('home') }}"><i class="fas fa-home"></i><span>Home</span></a></li>
+            <li><a href="{{ url_for('home') }}#catagories"><i class="fas fa-th-large"></i><span>Categories</span></a>
+            </li>
+            <li><a href="{{ url_for('live_page') }}"><i class="fas fa-play-circle"></i><span>Live Wallpaper</span></a>
+            </li>
+            <li><a href="#"><i class="fas fa-mobile-alt"></i><span>Mobile</span></a></li>
+        </ul>
+
+        <!-- Expand Button -->
+        <div class="expand-btn" onclick="toggleSidebar()">
+            <i class="fas fa-angle-right"></i>
+        </div>
+
+    </div>
+
+    <!-- Mobile Floating Button -->
+    <div class="mobile-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-angle-right"></i>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
+
+    <main class="content-wrapper">
+        <!-- Filter Section -->
+        <div class="filter-container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterResults('All')">All</button>
+                <button class="filter-btn" onclick="filterResults('Desktop')">Desktop</button>
+                <button class="filter-btn" onclick="filterResults('Mobile')">Mobile</button>
+            </div>
+            <p class="results-text">Showing results for: <span>"{{ query }}"</span></p>
+        </div>
+
+        <!-- Live Wallpaper Grid -->
+        <div class="wallpaper-grid" id="live-grid">
+            {% for wallpaper in wallpapers %}
+            <div class="wallpaper-card" data-category="{{ wallpaper.category }}"
+                onclick="window.location.href='/live-download/{{ wallpaper.id }}'" style="cursor: pointer;">
+                <div class="video-preview-container">
+                    <video class="preview-video" muted loop playsinline prefetch="auto">
+                        {% if wallpaper.category == 'Mobile' %}
+                        <source
+                            src="{{ url_for('static', filename='uploads/live_wallpaper/mobile/' + wallpaper.file_name) }}"
+                            type="video/mp4">
+                        {% else %}
+                        <source
+                            src="{{ url_for('static', filename='uploads/live_wallpaper/desktop/' + wallpaper.file_name) }}"
+                            type="video/mp4">
+                        {% endif %}
+                    </video>
+                </div>
+                <div class="card-info">
+                    <h3>{{ wallpaper.title }}</h3>
+                    <div class="card-stats">
+                        <span><i class="fas fa-eye"></i> {{ wallpaper.views }}</span>
+                        <span><i class="fas fa-download"></i> {{ wallpaper.downloads }}</span>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="no-results">
+                <i class="fas fa-search-minus"></i>
+                <p>No live wallpapers found matching your search.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <script>
+        // Filter Logic
+        function filterResults(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            const cards = document.querySelectorAll('.wallpaper-card');
+
+            buttons.forEach(btn => {
+                btn.classList.toggle('active', btn.innerText === category);
+            });
+
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                if (category === 'All' || cardCat === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Live Preview Hover Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.wallpaper-card');
+            cards.forEach(card => {
+                const video = card.querySelector('.preview-video');
+
+                card.addEventListener('mouseenter', () => video.play());
+                card.addEventListener('mouseleave', () => {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+
+                card.addEventListener('touchstart', () => video.play());
+            });
+        });
+    </script>
+</body>
+
+</html>

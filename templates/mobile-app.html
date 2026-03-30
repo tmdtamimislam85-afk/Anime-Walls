@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Walls - Mobile App Coming Soon</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="coming-soon-body">
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='IMG/anime-logo.png') }}" alt="Lumora AI Logo"
+                    style="height: 40px; width: auto;">
+                <span>Anime<span>Walls</span></span>
+            </div>
+
+
+            <!-- Mobile Menu Toggle Button -->
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="drop-btn">Categories <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-content">
+                        <li><a href="/main?cat=Aesthetic">Aesthetic</a></li>
+                        <li><a href="/main?cat=Action & Battle">Action & Battle</a></li>
+                        <li><a href="/main?cat=Romantic / Couple">Romantic / Couple</a></li>
+                        <li><a href="/main?cat=Dark / Sad Anime">Dark / Sad Anime</a></li>
+                        <li><a href="/main?cat=Fantasy & Magic Worlds">Fantasy & Magic Worlds</a></li>
+                        <li><a href="/main?cat=Cyberpunk / Futuristic">Cyberpunk / Futuristic</a></li>
+                        <li><a href="/main?cat=Abstract / 3D">Abstract / 3D</a></li>
+                        <li><a href="/main?cat=Chibi / Cute Anime">Chibi / Cute Anime</a></li>
+                        <li><a href="/main?cat=Nature + Anime Blend">Nature + Anime Blend</a></li>
+                        <li><a href="/main?cat=Character-Focused Wallpapers">Character-Focused Wallpapers</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{ url_for('live_page') }}">Live Wallpaper</a></li>
+                <li><a href="#" class="active">Mobile</a></li>
+            </ul>
+            <div class="search-box">
+                <form action="/main" method="GET" style="display: flex; width: 100%;">
+                    <input type="text" name="q" placeholder="Search 4K wallpapers...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        const menu = document.querySelector('#mobile-menu');
+        const menuLinks = document.querySelector('#nav-list');
+
+        menu.addEventListener('click', function () {
+            menu.classList.toggle('is-active');
+            menuLinks.classList.toggle('active');
+        });
+
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navLinks = document.querySelector(".nav-links");
+
+        // Toggle menu open/close
+        menuToggle.addEventListener("click", () => {
+            menuToggle.classList.toggle("is-active");
+            navLinks.classList.toggle("active");
+        });
+
+        const dropdowns = document.querySelectorAll(".dropdown");
+
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener("click", () => {
+                dropdown.classList.toggle("active");
+            });
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                menuToggle.classList.remove("is-active");
+                navLinks.classList.remove("active");
+            }
+        });
+
+    </script>
+
+
+    <div class="coming-soon-wrapper">
+        <div class="bg-blur-circle"></div>
+        <div class="bg-blur-circle-2"></div>
+
+        <div class="coming-soon-container">
+            <div class="app-logo">
+                <img src="{{ url_for('static', filename='IMG/anime-logo.png') }}" alt="Anime Walls">
+                <h1>Anime<span>Walls</span></h1>
+            </div>
+
+            <div class="hero-section">
+                <div class="mockup-container">
+                    <div class="phone-frame">
+                        <i class="fas fa-mobile-alt"></i>
+                        <div class="pulse-effect"></div>
+                    </div>
+                </div>
+
+                <h2 class="title-text">Mobile App<br><span>Coming Soon</span></h2>
+                <p class="description">Experience the next generation of live wallpapers. Our AI-powered mobile app is
+                    almost ready for you.</p>
+            </div>
+
+            <div class="feature-tags">
+                <span><i class="fas fa-bolt"></i> Ultra Fast</span>
+                <span><i class="fas fa-battery-three-quarters"></i> Battery Optimized</span>
+            </div>
+
+            <div class="btn-group">
+                <a href="{{ url_for('home') }}" class="return-home">
+                    <i class="fas fa-home"></i> Back to Website
+                </a>
+                <p class="notify-text">Launching on Play Store & App Store</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

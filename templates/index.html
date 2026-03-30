@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Walls 4K - 3D Perspective Gallery</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='IMG/anime-logo.png') }}" alt="Lumora AI Logo"
+                    style="height: 40px; width: auto;">
+                <span>Anime<span>Walls</span></span>
+            </div>
+
+
+            <!-- Mobile Menu Toggle Button -->
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+
+            <ul class="nav-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="drop-btn">Categories <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-content">
+                        <li><a href="/main?cat=Aesthetic">Aesthetic</a></li>
+                        <li><a href="/main?cat=Action & Battle">Action & Battle</a></li>
+                        <li><a href="/main?cat=Romantic / Couple">Romantic / Couple</a></li>
+                        <li><a href="/main?cat=Dark / Sad Anime">Dark / Sad Anime</a></li>
+                        <li><a href="/main?cat=Fantasy & Magic Worlds">Fantasy & Magic Worlds</a></li>
+                        <li><a href="/main?cat=Cyberpunk / Futuristic">Cyberpunk / Futuristic</a></li>
+                        <li><a href="/main?cat=Abstract / 3D">Abstract / 3D</a></li>
+                        <li><a href="/main?cat=Chibi / Cute Anime">Chibi / Cute Anime</a></li>
+                        <li><a href="/main?cat=Nature + Anime Blend">Nature + Anime Blend</a></li>
+                        <li><a href="/main?cat=Character-Focused Wallpapers">Character-Focused Wallpapers</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{ url_for('live_page') }}">Live Wallpaper</a></li>
+                <li><a href="{{ url_for('app_coming_soon') }}">Mobile</a></li>
+            </ul>
+            <div class="search-box">
+                <form action="/main" method="GET" style="display: flex; width: 100%;">
+                    <input type="text" name="q" placeholder="Search 4K wallpapers...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        const menu = document.querySelector('#mobile-menu');
+        const menuLinks = document.querySelector('#nav-list');
+
+        menu.addEventListener('click', function () {
+            menu.classList.toggle('is-active');
+            menuLinks.classList.toggle('active');
+        });
+
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navLinks = document.querySelector(".nav-links");
+
+        // Toggle menu open/close
+        menuToggle.addEventListener("click", () => {
+            menuToggle.classList.toggle("is-active");
+            navLinks.classList.toggle("active");
+        });
+
+        const dropdowns = document.querySelectorAll(".dropdown");
+
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener("click", () => {
+                dropdown.classList.toggle("active");
+            });
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                menuToggle.classList.remove("is-active");
+                navLinks.classList.remove("active");
+            }
+        });
+
+    </script>
+
+
+
+
+    <div class="hero" id="hero-bg">
+        <div class="slider-container">
+            <div class="slider" id="slider">
+                <div class="item active" data-desktop="{{ url_for('static', filename='IMG/desktop-1.png') }}">
+                    <img src="{{ url_for('static', filename='IMG/mobile-1.png') }}" alt="Wallpaper 1">
+                </div>
+                <div class="item" data-desktop="{{ url_for('static', filename='IMG/desktop-2.png') }}">
+                    <img src="{{ url_for('static', filename='IMG/mobile-2.png') }}" alt="Wallpaper 2">
+                </div>
+                <div class="item" data-desktop="{{ url_for('static', filename='IMG/desktop-3.png') }}">
+                    <img src="{{ url_for('static', filename='IMG/mobile-3.png') }}" alt="Wallpaper 3">
+                </div>
+                <div class="item" data-desktop="{{ url_for('static', filename='IMG/desktop-4.png') }}">
+                    <img src="{{ url_for('static', filename='IMG/mobile-4.png') }}" alt="Wallpaper 4">
+                </div>
+                <div class="item" data-desktop="{{ url_for('static', filename='IMG/desktop-5.png') }}">
+                    <img src="{{ url_for('static', filename='IMG/mobile-5.png') }}" alt="Wallpaper 5">
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-text-wrapper">
+                <h1 class="hero-title">ULTRA 4K<br>ANIME WALLS</h1>
+                <p class="hero-desc">Experience the ultimate anime aesthetic. Premium 4K wallpapers for your desktop and
+                    mobile.</p>
+                <a href="{{ url_for('main_page') }}">
+                    <button class="hero-btn">Explore Now</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <section class="home-live-intro">
+        <div class="video-bg-container">
+            <video autoplay muted loop playsinline class="bg-video">
+                <source src="{{ url_for('static', filename='videos/live-intro.mp4') }}" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+
+        <div class="intro-container">
+            <div class="intro-content">
+                <span class="badge">New Feature</span>
+                <h2 class="intro-title">Bring Your Screen to <span>Life</span></h2>
+                <p class="intro-text">
+                    Experience our exclusive collection of 4K anime live wallpapers.
+                    Designed with smooth loops and high-performance rendering for an
+                    immersive digital experience.
+                </p>
+                <div class="feature-list">
+                    <div class="f-item"><i class="fas fa-bolt"></i> Ultra Smooth Loops</div>
+                    <div class="f-item"><i class="fas fa-battery-full"></i> Battery Optimized</div>
+                    <div class="f-item"><i class="fas fa-mobile-alt"></i> Mobile & Desktop</div>
+                </div>
+                <div class="intro-cta">
+                    <a href="/live" class="btn-primary">Explore Live Walls</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <section id="catagories" class="category-grid-section">
+        <h2 class="section-title">Explore <span>Categories</span></h2>
+
+        <div id="category-bg-overlay"></div>
+
+        <div class="category-container">
+            <a href="/main?cat=Aesthetic" class="cat-card" data-bg="Aesthetic-bg.jpg">
+                <div class="cat-card-glass">
+                    <i class="fas fa-mask"></i>
+                    <h3>Aesthetic</h3>
+                </div>
+            </a>
+
+            <a href="/main?cat=Action & Battle" class="cat-card" data-bg="Action-&-Battle-bg.png">
+                <div class="cat-card-glass">
+                    <i class="fas fa-city"></i>
+                    <h3>Action & Battle</h3>
+                </div>
+            </a>
+
+            <a href="/main?cat=Romantic / Couple" class="cat-card" data-bg="Romantic-Couple-bg.jpg">
+                <div class="cat-card-glass">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Romantic / Couple</h3>
+                </div>
+            </a>
+
+            <a href="/main?cat=Dark / Sad Anime" class="cat-card" data-bg="Dark--Sad-Anime-bg.jpeg">
+                <div class="cat-card-glass">
+                    <i class="fas fa-circle-notch"></i>
+                    <h3>Dark / Sad Anime</h3>
+                </div>
+            </a>
+
+            <a href="/main?cat=Fantasy & Magic Worlds" class="cat-card" data-bg="Fantasy-&-Magic-Worlds-bg.jpeg">
+                <div class="cat-card-glass">
+                    <i class="fas fa-palette"></i>
+                    <h3>Fantasy & Magic Worlds</h3>
+                </div>
+            </a>
+
+            <a href="/main?cat=Cyberpunk / Futuristic" class="cat-card" data-bg="Cyberpunk--Futuristic-bg.jpg">
+                <div class="cat-card-glass">
+                    <i class="fas fa-palette"></i>
+                    <h3>Cyberpunk / Futuristic</h3>
+                </div>
+            </a>
+
+            <a href="/main?cat=Abstract / 3D" class="cat-card" data-bg="Abstract.png">
+                <div class="cat-card-glass">
+                    <i class="fas fa-palette"></i>
+                    <h3>Abstract / 3D</h3>
+                </div>
+            </a>
+
+            <a href="/main?cat=Chibi / Cute Anime" class="cat-card" data-bg="Cute-Anime.jpg">
+                <div class="cat-card-glass">
+                    <i class="fas fa-palette"></i>
+                    <h3>Chibi / Cute Anime</h3>
+                </div>
+            </a>
+
+            <a href="/main?cat=Nature + Anime Blend" class="cat-card" data-bg="Nature.jpeg">
+                <div class="cat-card-glass">
+                    <i class="fas fa-palette"></i>
+                    <h3>Nature + Anime Blend</h3>
+                </div>
+            </a>
+
+            <a href="/main?cat=Character-Focused Wallpapers" class="cat-card" data-bg="Character-Focused.jpeg">
+                <div class="cat-card-glass">
+                    <i class="fas fa-palette"></i>
+                    <h3>Character-Focused Wallpapers</h3>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <script>
+        const cards = document.querySelectorAll(".cat-card");
+        const overlay = document.getElementById("category-bg-overlay");
+
+        cards.forEach(card => {
+            const bg = card.getAttribute("data-bg");
+
+            // Desktop hover
+            card.addEventListener("mouseenter", () => {
+                overlay.style.backgroundImage = `url('/static/IMG/${bg}')`;
+                overlay.style.opacity = "0.3";
+            });
+
+            // Mobile touch
+            card.addEventListener("touchstart", () => {
+                overlay.style.backgroundImage = `url('/static/IMG/${bg}')`;
+                overlay.style.opacity = "0.3";
+            });
+        });
+    </script>
+
+
+
+    <footer class="main-footer">
+        <!-- Background Video -->
+        <video autoplay muted loop id="footer-video">
+            <source src="/static/videos/footer-bg.mp4" type="video/mp4">
+        </video>
+        <div class="footer-overlay"></div>
+
+        <div class="footer-content">
+            <!-- Left Side: Logo & Socials -->
+            <div class="footer-section left">
+                <div class="footer-logo">
+                    <img src="/static/IMG/anime-logo.png" alt="Logo">
+                    <h2>Anime<span>Walls</span></h2>
+                </div>
+                <div class="social-links">
+                    <p>Follow Us</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle: 10 Categories -->
+            <div class="footer-section middle">
+                <h3>Categories</h3>
+                <div class="footer-cat-grid">
+                    <a href="/main?cat=Aesthetic">Aesthetic</a>
+                    <a href="/main?cat=Action & Battle">Action & Battle</a>
+                    <a href="/main?cat=Romantic / Couple">Romantic / Couple</a>
+                    <a href="/main?cat=Dark / Sad Anime">Dark / Sad Anime</a>
+                    <a href="/main?cat=Fantasy & Magic Worlds">Fantasy & Magic Worlds</a>
+                    <a href="/main?cat=Cyberpunk / Futuristic">Cyberpunk / Futuristic</a>
+                    <a href="/main?cat=Abstract / 3D">Abstract / 3D</a>
+                    <a href="/main?cat=Chibi / Cute Anime">Chibi / Cute Anime</a>
+                    <a href="/main?cat=Nature + Anime Blend">Nature + Anime Blend</a>
+                    <a href="/main?cat=Character-Focused Wallpapers">Character-Focused Wallpapers</a>
+                </div>
+            </div>
+
+            <!-- Right Side: Get It In -->
+            <div class="footer-section right">
+                <h3>Get It In</h3>
+                <a href="YOUR_PLAYSTORE_LINK" class="playstore-btn">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                        alt="Google Play">
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Anime Walls. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
