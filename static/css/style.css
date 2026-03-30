@@ -1,0 +1,1146 @@
+/* --- Global Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #050505;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+.navbar {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    z-index: 2000;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    padding: 12px 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.logo span span {
+    color: #ff5e00;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: 0.4s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #ff5e00;
+}
+
+
+/* Search Bar */
+
+/* Search Bar (Glassmorphism) */
+.search-box {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    /* Very light glass fill */
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 8px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: 0.3s;
+}
+
+.search-box:focus-within {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    padding: 5px;
+    width: 180px;
+    font-size: 0.85rem;
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.search-box button {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.search-box button:hover {
+    color: #ff5e00;
+}
+
+/*  Mobile Navbar       */
+/* --- Desktop Default (Eita ensure korun navbar-e deya ache) --- */
+.menu-toggle {
+    display: none;
+}
+
+/* --- Mobile Responsive (768px and below) --- */
+@media (max-width: 768px) {
+    .nav-container {
+        justify-content: space-between;
+        padding: 0 15px;
+    }
+
+    /* Hide Desktop Nav Links */
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        transform: translateX(-100%);
+        flex-direction: column;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        transition: 0.4s ease;
+        text-align: center;
+        padding: 40px 0;
+        border-radius: 20px;
+        z-index: 999;
+    }
+
+    .nav-links.active {
+        transform: translateX(0);
+    }
+
+
+    .nav-links li {
+        margin: 15px 0;
+    }
+
+    .dropdown-content {
+        position: static;
+        display: none;
+        /* Mobile-e categories toggle korte bolle dropdown-e hover e show hobe */
+        background: rgba(255, 255, 255, 0.05);
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+
+    /* Dropdown fix */
+    .dropdown.active .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Search Box adjustment for mobile */
+    .search-box {
+        display: none;
+        /* Mobile-e navbar er bhetore search boro lage, chaile hide rakha jay */
+    }
+
+    /* Hamburger Menu Icon Styling */
+    .menu-toggle {
+        display: block;
+        cursor: pointer;
+        z-index: 1000;
+    }
+
+    .menu-toggle .bar {
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        transition: all 0.3s ease-in-out;
+        background: #fff;
+        display: block;
+        border-radius: 5px;
+    }
+
+    /* Toggle Animation (Hamburger to X) */
+    .menu-toggle.is-active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.is-active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+        background: #ff5e00;
+    }
+
+    .menu-toggle.is-active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+        background: #ff5e00;
+    }
+}
+
+
+
+
+
+
+/* Dropdown CSS from previous steps is required here for 'Categories' */
+
+/* Dropdown Container */
+.dropdown {
+    position: relative;
+}
+
+.drop-btn i {
+    font-size: 0.7rem;
+    margin-left: 5px;
+    transition: 0.3s;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: block;
+    position: absolute;
+    top: 150%;
+    /* Navbar theke ektu niche thakbe */
+    left: 0;
+    min-width: 200px;
+
+    /* Dark Glassmorphism */
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+
+    list-style: none;
+    padding: 10px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+/* Dropdown Links */
+.dropdown-content li a {
+    color: rgba(255, 255, 255, 0.8) !important;
+    padding: 12px 20px;
+    display: block;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+/* Hover effect on dropdown links */
+.dropdown-content li a:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ff5e00 !important;
+    padding-left: 25px;
+    /* Chotto animation */
+}
+
+/* Show Dropdown on Hover */
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown:hover .drop-btn i {
+    transform: rotate(180deg);
+    /* Icon ghure jabe */
+    color: #ff5e00;
+}
+
+
+/* --- 2. Hero Section (Updated) --- */
+/* Hero Background & Overlay */
+.hero {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: #000 no-repeat center center/cover;
+    transition: background-image 1.2s ease-in-out;
+}
+
+/* Base overlay for dark contrast against wallpapers */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    /* Background image-ke halka dekhabe */
+    z-index: 1;
+}
+
+/* === A: New Horizontal Carousel (Integrated Right) === */
+.slider-container {
+    position: absolute;
+    left: 10%;
+    width: 60%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    z-index: 5;
+    overflow: visible;
+    /* Pichoner image dekha jaoar jonno */
+}
+
+.slider {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    /* Bouncy smooth transition */
+    will-change: transform;
+}
+
+.slider .item {
+    min-width: 180px;
+    height: 320px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.8s ease-in-out;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slider .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* === KEY: Scaling States Handling (JS toggles this class) === */
+
+/* 1. Base default: slightly smaller, hidden backface visibility */
+.slider .item {
+    transform: scale(0.85);
+    /* Default size of non-active items */
+    backface-visibility: hidden;
+    filter: brightness(0.7);
+    /* Non-active items are slightly darker */
+}
+
+/* 2. Middle (Active) Image: Largest */
+.slider .item.active {
+    min-width: 280px;
+    /* Boro width */
+    height: 500px;
+    /* Full Mobile Height */
+    z-index: 10;
+    border: 3px solid #ff5e00;
+    box-shadow: 0 0 40px rgba(255, 94, 0, 0.4);
+}
+
+/* 3. Pre/Post Active Images: Medium Size */
+/* We define these classes in JS logic below for Pre/Post scaling */
+.slider .item.pre-active,
+.slider .item.post-active {
+    transform: scale(0.95);
+    /* Smaller than Active, larger than Default */
+    z-index: 4;
+    /* Below active image */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    filter: brightness(0.9);
+}
+
+/* --- B: Hero Content (Shifted Right & Down) --- */
+.hero-content {
+    position: absolute;
+    right: 5%;
+    bottom: 10%;
+    text-align: right;
+    z-index: 10;
+}
+
+.hero-text-wrapper {
+    max-width: 550px;
+    text-align: right;
+    /* Text is right-aligned */
+}
+
+.hero-title {
+    font-size: 5rem;
+    line-height: 1;
+    background: linear-gradient(#fff, #ff5e00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+}
+
+.hero-desc {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 20px 0 45px;
+    font-weight: 300;
+    line-height: 1.9;
+}
+
+.hero-btn {
+    background: #ff5e00;
+    color: #fff;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 35px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 8px 25px rgba(255, 94, 0, 0.3);
+}
+
+.hero-btn:hover {
+    background: #e65500;
+    box-shadow: 0 10px 30px rgba(255, 94, 0, 0.5);
+    transform: translateY(-4px);
+}
+
+
+
+
+
+
+/* =========================================
+   Live Wallpaper intro Section
+   ========================================= */
+
+
+/*  live wallpaper intro section     */
+/* --- Home Live Intro Section --- */
+.home-live-intro {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Desktop-e full screen height nibe */
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin: 0 !important; /* Shob dhoroner default margin bondho kora holo */
+    padding: 0 !important;
+    background: #000;
+}
+
+.video-bg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Video-ke stretch hote dibe na, fit korbe */
+    filter: brightness(0.6);
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* Desktop-e left side-e focus thakbe */
+    background: linear-gradient(to right, rgba(0,0,0,0.9) 20%, transparent 100%);
+    z-index: 2;
+}
+
+.intro-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+    z-index: 10;
+}
+
+.intro-content {
+    max-width: 600px;
+    text-align: left;
+}
+
+.badge {
+    background: #ff5e00;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.intro-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 15px 0;
+    line-height: 1.1;
+}
+
+.intro-title span { color: #ff5e00; }
+
+.intro-text {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+/* Feature Mini List */
+.feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.f-item {
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+}
+
+.f-item i { color: #ff5e00; font-size: 1.1rem; }
+
+/* --- Mobile Responsive Fix (For 768px and below) --- */
+@media (max-width: 768px) {
+    .home-live-intro {
+        height: 100vh; /* Mobile-eo full screen nibe */
+        align-items: flex-end; /* Content niche thakbe */
+        padding-bottom: 80px !important; /* Bottom navigation ba bar thakle gap thakbe */
+    }
+
+    .video-overlay {
+        /* Mobile-e niche theke gradient jate text clear thake */
+        background: linear-gradient(to top, rgba(0,0,0,0.95) 30%, transparent 100%);
+    }
+
+    .intro-container {
+        padding: 0 20px;
+        width: 100%;
+    }
+
+    .intro-content {
+        width: 100%;
+        text-align: left;
+    }
+
+    .intro-title {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    .intro-text {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+
+    .feature-list {
+        gap: 8px; /* Compact but clear spacing */
+        margin-bottom: 20px;
+    }
+
+    .f-item { font-size: 0.85rem; }
+
+    .btn-primary {
+        padding: 10px 25px; /* Compact mobile button */
+        font-size: 0.85rem;
+    }
+}
+
+.btn-primary {
+    background: #ff5e00;
+    color: #fff;
+    padding: 16px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.3s;
+    box-shadow: 0 8px 25px rgba(255, 94, 0, 0.3);
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 16px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.btn-primary:hover, .btn-glass:hover {
+    transform: translateY(-5px);
+    background: #fff;
+    color: #000;
+}
+
+
+
+/* =========================================
+   Catagories Section
+   ========================================= */
+
+/* Category Section Styling */
+.category-grid-section {
+    position: relative;
+    padding: 80px 5%;
+    text-align: center;
+    background: #050505;
+    overflow: hidden;
+}
+
+#category-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: 0.8s ease;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.section-title span {
+    color: #ff5e00;
+}
+
+.category-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+/* Glassmorphism Card */
+.cat-card {
+    text-decoration: none;
+    color: #fff;
+    transition: 0.4s;
+}
+
+.cat-card-glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px 20px;
+    text-align: center;
+    height: 100%;
+    transition: 0.3s;
+}
+
+.cat-card:hover .cat-card-glass {
+    background: rgba(255, 94, 0, 0.15);
+    border-color: #ff5e00;
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(255, 94, 0, 0.2);
+}
+
+.cat-card-glass i {
+    font-size: 2.5rem;
+    color: #ff5e00;
+    margin-bottom: 15px;
+}
+
+.cat-card-glass h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+
+
+
+/* --------------------------Footer-----------------------------
+   ---------------------------Page------------------------------ */
+
+/* Footer Styles */
+.main-footer {
+    position: relative;
+    width: 100%;
+    padding: 60px 5% 20px;
+    color: #fff;
+    overflow: hidden;
+    margin-top: 50px;
+}
+
+#footer-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Video-ke stretch hote dibe na, borong kete thikmoto boshabe */
+    object-fit: cover;
+    z-index: -2;
+    /* Clarity baranor jonno nichey deya filter gulo kajer */
+    filter: brightness(0.6) contrast(1.2);
+    /* Low quality video-r pixelation komanor jonno */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+.footer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Video gola hole ektu beshi blur apply korle seta premium glass lage */
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+    /* Blur ektu bariye din */
+    -webkit-backdrop-filter: blur(15px);
+    z-index: -1;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Left Section */
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.footer-logo img {
+    width: 45px;
+}
+
+.footer-logo h2 span {
+    color: #ff5e00;
+}
+
+.social-links p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: #888;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.1);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    background: #ff5e00;
+    transform: translateY(-5px);
+}
+
+/* Middle Section - Categories */
+.footer-section h3 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    border-left: 3px solid #ff5e00;
+    padding-left: 10px;
+}
+
+.footer-cat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.footer-cat-grid a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.footer-cat-grid a:hover {
+    color: #ff5e00;
+    padding-left: 5px;
+}
+
+/* Right Section - Playstore */
+.playstore-btn img {
+    width: 160px;
+    transition: 0.3s;
+}
+
+.playstore-btn:hover img {
+    transform: scale(1.05);
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .footer-logo,
+    .social-icons,
+    .footer-section h3 {
+        justify-content: center;
+    }
+
+    .footer-section h3 {
+        border-left: none;
+        border-bottom: 2px solid #ff5e00;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/*            ----------Mobile Page--------------*/
+/* Coming Soon Page Styles */
+.coming-soon-body {
+    background: radial-gradient(circle at top, #1a1a1a 0%, #050505 100%);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+}
+
+.coming-soon-container {
+    max-width: 500px;
+    padding: 20px;
+    animation: fadeIn 1s ease-out;
+}
+
+/* Logo Styling */
+.app-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.app-logo img { height: 60px; margin-bottom: 10px; }
+.app-logo h1 { font-size: 1.8rem; letter-spacing: 2px; }
+.app-logo h1 span { color: #ff5e00; }
+
+/* Mockup Animation */
+.app-mockup {
+    font-size: 5rem;
+    color: #ff5e00;
+    position: relative;
+    margin-bottom: 30px;
+    display: inline-block;
+}
+
+.pulse-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border: 2px solid #ff5e00;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+/* Text Styling */
+.main-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.main-title span {
+    display: block;
+    background: linear-gradient(to right, #ff5e00, #ff8c42);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sub-text {
+    color: #888;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Feature Pills */
+.feature-pills {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.feature-pills span {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Back Button */
+.back-btn {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255, 94, 0, 0.1);
+    padding: 12px 25px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 94, 0, 0.3);
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.back-btn:hover {
+    background: #ff5e00;
+    transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* --- Coming Soon Layout --- */
+.coming-soon-wrapper {
+    background-color: #050505;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Background Glowing Circles */
+.bg-blur-circle {
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 94, 0, 0.15);
+    filter: blur(100px);
+    border-radius: 50%;
+}
+
+.bg-blur-circle-2 {
+    position: absolute;
+    bottom: -10%;
+    left: -10%;
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 94, 0, 0.1);
+    filter: blur(80px);
+    border-radius: 50%;
+}
+
+.coming-soon-container {
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    z-index: 10;
+    padding: 20px;
+}
+
+/* App Mockup Animation */
+.mockup-container {
+    margin-bottom: 30px;
+}
+
+.phone-frame {
+    font-size: 4rem;
+    color: #ff5e00;
+    position: relative;
+    display: inline-block;
+}
+
+.pulse-effect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border: 2px solid #ff5e00;
+    border-radius: 50%;
+    animation: phonePulse 2s infinite;
+}
+
+/* Text Elements */
+.title-text {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 15px;
+}
+
+.title-text span {
+    background: linear-gradient(45deg, #ff5e00, #ff8c42);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.description {
+    color: #999;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 35px;
+}
+
+/* Feature Pills */
+.feature-tags {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.feature-tags span {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 15px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    color: #ccc;
+}
+
+/* Buttons */
+.return-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(45deg, #ff5e00, #ff7a29);
+    color: #fff;
+    text-decoration: none;
+    padding: 14px 30px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 10px 20px rgba(255, 94, 0, 0.2);
+    transition: 0.3s;
+}
+
+.return-home:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(255, 94, 0, 0.4);
+}
+
+.notify-text {
+    margin-top: 20px;
+    font-size: 0.75rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- Mobile Specific Fixes --- */
+@media (max-width: 480px) {
+    .title-text { font-size: 1.8rem; }
+    .description { font-size: 0.85rem; }
+    .phone-frame { font-size: 3.5rem; }
+    .feature-tags { flex-direction: column; align-items: center; }
+}
+
+@keyframes phonePulse {
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
+}

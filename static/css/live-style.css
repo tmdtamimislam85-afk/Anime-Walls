@@ -1,0 +1,1311 @@
+/* --- Global Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #050505;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+.navbar {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    z-index: 2000;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    padding: 12px 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.logo span span {
+    color: #ff5e00;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: 0.4s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #ff5e00;
+}
+
+
+/* Search Bar */
+
+/* Search Bar (Glassmorphism) */
+.search-box {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    /* Very light glass fill */
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 8px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: 0.3s;
+}
+
+.search-box:focus-within {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    padding: 5px;
+    width: 180px;
+    font-size: 0.85rem;
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.search-box button {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.search-box button:hover {
+    color: #ff5e00;
+}
+
+/*  Mobile Navbar       */
+/* --- Desktop Default (Eita ensure korun navbar-e deya ache) --- */
+.menu-toggle {
+    display: none;
+}
+
+/* --- Mobile Responsive (768px and below) --- */
+@media (max-width: 768px) {
+    .nav-container {
+        justify-content: space-between;
+        padding: 0 15px;
+    }
+
+    /* Hide Desktop Nav Links */
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        transform: translateX(-100%);
+        flex-direction: column;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        transition: 0.4s ease;
+        text-align: center;
+        padding: 40px 0;
+        border-radius: 20px;
+        z-index: 999;
+    }
+
+    .nav-links.active {
+        transform: translateX(0);
+    }
+
+
+    .nav-links li {
+        margin: 15px 0;
+    }
+
+    .dropdown-content {
+        position: static;
+        display: none;
+        /* Mobile-e categories toggle korte bolle dropdown-e hover e show hobe */
+        background: rgba(255, 255, 255, 0.05);
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+
+    /* Dropdown fix */
+    .dropdown.active .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Search Box adjustment for mobile */
+    .search-box {
+        display: none;
+        /* Mobile-e navbar er bhetore search boro lage, chaile hide rakha jay */
+    }
+
+    /* Hamburger Menu Icon Styling */
+    .menu-toggle {
+        display: block;
+        cursor: pointer;
+        z-index: 1000;
+    }
+
+    .menu-toggle .bar {
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        transition: all 0.3s ease-in-out;
+        background: #fff;
+        display: block;
+        border-radius: 5px;
+    }
+
+    /* Toggle Animation (Hamburger to X) */
+    .menu-toggle.is-active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.is-active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+        background: #ff5e00;
+    }
+
+    .menu-toggle.is-active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+        background: #ff5e00;
+    }
+}
+
+
+
+
+
+
+/* Dropdown CSS from previous steps is required here for 'Categories' */
+
+/* Dropdown Container */
+.dropdown {
+    position: relative;
+}
+
+.drop-btn i {
+    font-size: 0.7rem;
+    margin-left: 5px;
+    transition: 0.3s;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: block;
+    position: absolute;
+    top: 150%;
+    /* Navbar theke ektu niche thakbe */
+    left: 0;
+    min-width: 200px;
+
+    /* Dark Glassmorphism */
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+
+    list-style: none;
+    padding: 10px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+/* Dropdown Links */
+.dropdown-content li a {
+    color: rgba(255, 255, 255, 0.8) !important;
+    padding: 12px 20px;
+    display: block;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+/* Hover effect on dropdown links */
+.dropdown-content li a:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ff5e00 !important;
+    padding-left: 25px;
+    /* Chotto animation */
+}
+
+/* Show Dropdown on Hover */
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown:hover .drop-btn i {
+    transform: rotate(180deg);
+    /* Icon ghure jabe */
+    color: #ff5e00;
+}
+
+
+
+
+
+
+
+
+/* --- Live Hero Section Styles --- */
+/* --- Live Hero Section Fix --- */
+.live-hero {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full screen display */
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: #000;
+}
+
+#hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Video stretch hobe na, puro screen-e fit hobe */
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Desktop-e left side-e dark beshi thakbe text-er jonno */
+    background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+    z-index: 2;
+}
+
+.hero-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+    z-index: 3;
+}
+
+.hero-content {
+    text-align: left; /* Text and buttons strictly left side */
+    max-width: 600px;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.hero-title span { color: #ff5e00; }
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+
+/* Button size optimized */
+.btn-primary, .btn-glass {
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: 0.3s ease;
+}
+
+.btn-primary { background: #ff5e00; color: #fff; }
+.btn-glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); color: #fff; }
+
+/* --- Mobile Responsive Fix (768px) --- */
+/* --- Mobile Fixes --- */
+@media (max-width: 768px) {
+    .live-hero {
+        align-items: flex-end; /* Content niche (bottom) e niye jabe */
+        padding-bottom: 60px;  /* Screen-er ekdom nich theke ektu faka rakhbe */
+    }
+
+    .hero-container {
+        padding: 0 20px;
+    }
+
+    .hero-content {
+        text-align: left; /* Still left aligned */
+        max-width: 100%;
+    }
+
+    .hero-title {
+        font-size: 2rem; /* Mobile-e size optimized */
+        margin-bottom: 10px;
+    }
+
+    .hero-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        line-height: 1.4;
+    }
+
+    .hero-buttons {
+        flex-direction: row; /* Buttons pashapashi thakbe */
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .btn-primary, .btn-glass {
+        padding: 10px 18px; /* Compact buttons */
+        font-size: 0.8rem;
+    }
+
+    .hero-overlay {
+        /* Mobile-e niche theke upore gradient dark thakbe jate lekhagulo fute uthe */
+        background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.3) 50%, transparent 100%);
+    }
+}
+
+
+.btn-primary {
+    background: #ff5e00;
+    color: #fff;
+    padding: 16px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.3s;
+    box-shadow: 0 8px 25px rgba(255, 94, 0, 0.3);
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 16px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.btn-primary:hover, .btn-glass:hover {
+    transform: translateY(-5px);
+    background: #fff;
+    color: #000;
+}
+
+
+
+
+
+
+/*            Wallpaper grid                */
+/* --- Live Wallpaper Grid Section --- */
+.live-grid-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 80px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+/* Category Switcher (Top Middle) */
+.category-switcher {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 6px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 50px;
+}
+
+.cat-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 10px 35px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: 0.3s all ease;
+}
+
+.cat-btn.active {
+    background: #ff5e00;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(255, 94, 0, 0.3);
+}
+
+/* Grid Layout */
+.wallpaper-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    justify-items: center;
+}
+
+/* Wallpaper Card Style */
+.wallpaper-card {
+    background: #111;
+    border-radius: 20px;
+    overflow: hidden;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.wallpaper-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 94, 0, 0.4);
+}
+
+/* Video Container Logic */
+.video-preview-container {
+    position: relative;
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+}
+
+/* Card Category logic base kore aspect ratio change */
+.wallpaper-card[data-category="Desktop"] .video-preview-container {
+    aspect-ratio: 16 / 9;
+}
+
+/* Mobile Aspect Ratio (9:16) */
+.wallpaper-card[data-category="Mobile"] .video-preview-container {
+    aspect-ratio: 9 / 16;
+    max-width: 280px; /* Mobile wall gulo compact rakhar jonno */
+    margin: 0 auto;
+}
+
+.preview-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Card Info */
+.card-info {
+    padding: 20px;
+    text-align: left;
+}
+
+.card-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-stats {
+    display: flex;
+    justify-content: space-between;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+}
+
+.card-stats span i {
+    color: #ff5e00;
+    margin-right: 5px;
+}
+
+/* View More Button (Bottom Right) */
+.view-more-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+}
+
+.view-more-btn {
+    color: #ff5e00;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+.view-more-btn:hover {
+    gap: 18px;
+    opacity: 0.8;
+}
+
+/* --- Mobile Responsive --- */
+@media (max-width: 768px) {
+    .wallpaper-grid {
+        grid-template-columns: repeat(2, 1fr); /* Mobile-e 2 column grid */
+        gap: 15px;
+    }
+
+    .category-switcher {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .cat-btn {
+        flex: 1;
+        padding: 10px 15px;
+        font-size: 0.8rem;
+    }
+
+    .card-info {
+        padding: 12px;
+    }
+
+    .card-info h3 {
+        font-size: 0.9rem;
+    }
+
+    .card-stats {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+
+/* Category Switcher Styling */
+/* --- Category Switcher Centering --- */
+
+/* --- Live Wallpaper Main Wrapper --- */
+.category-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* --- Category Switcher (Middle Buttons) --- */
+.category-switcher {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    max-width: fit-content;
+}
+
+.cat-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 10px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.cat-btn.active {
+    background: #ff5e00;
+    border-color: #ff5e00;
+    box-shadow: 0 5px 15px rgba(255, 94, 0, 0.3);
+}
+
+/* --- Search Container & Trigger --- */
+.search-container {
+    position: absolute;
+    right: 20px;
+    z-index: 100;
+}
+
+.search-trigger {
+    background: rgba(255, 255, 255, 0.05);
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transition: 0.3s;
+}
+
+.search-trigger:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #ff5e00;
+}
+
+/* --- Dropdown Glassmorphism Search Box --- */
+.search-dropdown {
+    position: absolute;
+    top: 55px; /* Icon er thik niche */
+    right: 0;
+    width: 300px;
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 15px;
+    display: none; /* JS diye toggle hobe */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 10px;
+}
+
+.search-form input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    width: 100%;
+    font-size: 0.95rem;
+}
+
+.search-form input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.search-form button {
+    background: transparent;
+    border: none;
+    color: #ff5e00;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+}
+
+/* --- Mobile View Adjustments (Responsive) --- */
+@media (max-width: 768px) {
+    .category-wrapper {
+        justify-content: center;
+        margin: 20px auto;
+        gap: 10px;
+    }
+
+    .category-switcher {
+        gap: 8px;
+    }
+
+    .cat-btn {
+        padding: 8px 18px;
+        font-size: 0.85rem;
+    }
+
+    .search-container {
+        position: static; /* Mobile-e buttons er pashapashi thakbe */
+    }
+
+    .search-trigger {
+        width: 40px;
+        height: 40px;
+    }
+
+    .search-dropdown {
+        position: fixed; /* Mobile-e screen er upor bhashbe */
+        top: 75px; 
+        left: 20px;
+        right: 20px;
+        width: auto;
+        z-index: 1000;
+    }
+}
+
+
+
+
+
+
+
+
+
+/*  --------------------------------------------------------
+----------------------Live Main-----------------------------------*/
+
+/* Navbar Styling */
+.search-nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: rgba(15, 15, 15, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    padding: 15px 0;
+    overflow: visible; 
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    gap: 10px; 
+    overflow: hidden;/* space between items */
+}
+
+.nav-container > * {
+    flex-shrink: 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 10px;
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.logo img { height: 40px; }
+.logo span span { color: #ff5e00; }
+
+/* Nav Search Bar */
+.nav-search-bar form {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    display: flex;
+    padding: 5px 20px;
+    width: 100%;
+    max-width: 350px;
+}
+
+.nav-search-bar input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    flex: 1;
+    padding: 8px 0;
+}
+
+.nav-search-bar button {
+    background: transparent;
+    border: none;
+    color: #ff5e00;
+    cursor: pointer;
+}
+
+/* Filter Buttons */
+.filter-container {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.filter-buttons {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 5px;
+    border-radius: 50px;
+    gap: 5px;
+}
+
+.filter-btn {
+    background: transparent;
+    border: none;
+    color: #aaa;
+    padding: 10px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.filter-btn.active {
+    background: #ff5e00;
+    color: #fff;
+}
+
+.results-text {
+    margin-top: 15px;
+    color: #888;
+}
+
+.results-text span { color: #fff; font-style: italic; }
+
+/* Grid Customization for Results */
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 0;
+    color: #555;
+}
+
+.no-results i { font-size: 4rem; margin-bottom: 20px; }
+
+@media (max-width: 768px) {
+
+    .nav-container {
+        flex-wrap: nowrap; /* line break avoid */
+    }
+
+    .logo {
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .logo img {
+        height: 32px;
+    }
+
+    /* Desktop search hide */
+    .nav-search-bar {
+        display: none;
+    }
+
+    /* Mobile icon show */
+    .mobile-search-wrapper {
+        display: block;
+        margin-left: auto;
+    }
+
+}
+
+
+/* Desktop Search Bar Hide logic */
+.desktop-only { display: flex; }
+.mobile-search-wrapper { display: none; }
+
+/* Mobile View Adjustments (max-width: 768px) */
+/* Mobile View */
+@media (max-width: 768px) {
+
+    .desktop-only { 
+        display: none; 
+    }
+
+    .nav-search-bar.desktop-only {
+        display: none;
+    }
+
+    .mobile-search-wrapper { 
+        display: block; 
+        position: relative; 
+    }
+
+    .mobile-search-trigger {
+        color: #fff;
+        font-size: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+    }
+
+    /* 🔥 FIXED DROPDOWN */
+    .mobile-search-dropdown {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        left: auto;
+        width: calc(100vw - 20px);
+        max-width: 280px;
+
+        background: rgba(20, 20, 20, 0.85);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 10px;
+        border-radius: 12px;
+
+        display: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        z-index: 9999;
+
+        animation: slideDown 0.3s ease;
+    }
+
+    .mobile-search-dropdown form {
+        display: flex;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 5px 10px;
+    }
+
+    .mobile-search-dropdown input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #fff;
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+    .mobile-search-dropdown button {
+        background: transparent;
+        border: none;
+        color: #ff5e00;
+        cursor: pointer;
+    }
+}
+
+/* Animation */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+
+/* =========================
+   SIDEBAR BASE
+========================= */
+.sidebar {
+    position: fixed;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+
+    width: 70px;
+    height: 75vh;
+
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    padding: 15px 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    transition: 0.4s ease;
+    z-index: 2000;
+}
+
+/* EXPANDED */
+.sidebar.active {
+    width: 220px;
+}
+
+/* =========================
+   LOGO
+========================= */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 40px;
+}
+
+.logo-text {
+    color: white;
+    font-weight: bold;
+    display: none;
+}
+
+.logo-text span {
+    color: #ff5e00;
+}
+
+.sidebar.active .logo-text {
+    display: inline;
+}
+
+/* =========================
+   MENU
+========================= */
+.menu {
+    list-style: none;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.menu a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+
+    padding: 10px;
+    border-radius: 10px;
+
+    transition: 0.3s;
+}
+
+/* Hover */
+.menu a:hover {
+    background: rgba(255,255,255,0.1);
+    color: #ff5e00;
+}
+
+/* Icon size (thin look) */
+.menu i {
+    font-size: 18px;
+    min-width: 20px;
+}
+
+/* Text hidden by default */
+.menu span {
+    display: none;
+    font-size: 14px;
+}
+
+/* Show text when expanded */
+.sidebar.active .menu span {
+    display: inline;
+}
+
+/* =========================
+   EXPAND BUTTON (RIGHT SIDE)
+========================= */
+.expand-btn {
+    position: absolute;
+    right: -12px; /* 🔥 outside edge */
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+
+    color: white;
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+/* Rotate on expand */
+.sidebar.active .expand-btn i {
+    transform: rotate(180deg);
+}
+
+/* Hover */
+.expand-btn:hover {
+    background: rgba(255,255,255,0.2);
+    color: #ff5e00;
+}
+
+/* =========================
+   MOBILE BUTTON (CENTER)
+========================= */
+.mobile-toggle {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    /* Sidebar hidden */
+    .sidebar {
+        left: -100%;
+        width: 220px;
+    }
+
+    .sidebar.active {
+        left: 10px;
+    }
+
+    /* Mobile floating button */
+    .mobile-toggle {
+        position: fixed;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: rgba(0,0,0,0.4);
+        backdrop-filter: blur(15px);
+
+        color: white;
+        font-size: 18px;
+        z-index: 3000;
+        cursor: pointer;
+    }
+
+    .mobile-toggle:hover {
+        background: rgba(255,255,255,0.2);
+        color: #ff5e00;
+    }
+}
+
+
+.sidebar {
+    position: fixed;
+    z-index: 9999; /* increase */
+}
+
+
+
+
+
+
+
+/* -------------------Live Download Page -------------------------------*/
+/* ---------------More like this---------------------*/
+/* Related section-er jonno specific grid layout */
+/* Section Container */
+.related-section {
+    max-width: 1400px;
+    margin: 80px auto;
+    padding: 0 20px;
+}
+
+/* Premium Title Styling */
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 40px;
+    position: relative;
+    padding-left: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 30px;
+    background: linear-gradient(to bottom, #ff5e00, #ff8c42);
+    border-radius: 10px;
+}
+
+/* Grid Layout (Main Grid-er moto Flexbox) */
+.related-section .wallpaper-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Card Size Logic */
+.related-section .wallpaper-card[data-category="Desktop"] {
+    width: 320px;
+}
+
+.related-section .wallpaper-card[data-category="Mobile"] {
+    width: 200px;
+}
+
+/* Mobile Responsive Fixes */
+@media (max-width: 768px) {
+    .related-section {
+        margin: 40px auto;
+        padding: 0 15px;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+        margin-bottom: 25px;
+    }
+
+    /* Mobile view-te 2-column grid setup */
+    .related-section .wallpaper-card[data-category="Mobile"] {
+        width: calc(50% - 10px); 
+    }
+
+    .related-section .wallpaper-card[data-category="Desktop"] {
+        width: 100%; /* Full width for landscape on mobile */
+    }
+}
